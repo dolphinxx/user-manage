@@ -1,0 +1,1 @@
+import{d as o,c as r,a4 as t,o as n}from"./index-C470G0J7.js";import{E as a}from"./main-rToqWcRj.js";const i=o({__name:"Home",setup(c){return t().replace("/overdue"),(_,p)=>{const e=a;return n(),r(e)}}});export{i as default};

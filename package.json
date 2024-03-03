@@ -1,0 +1,19 @@
+{
+  "name": "overdue-manage",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www",
+    "setup": "node ./setup/index.js"
+  },
+  "dependencies": {
+    "cookie-parser": "1.4.6",
+    "dotenv": "^16.4.5",
+    "express": "4.18.3",
+    "http-errors": "2.0.0",
+    "morgan": "1.10.0",
+    "node-cache": "^5.1.2",
+    "sqlite3": "^5.1.7",
+    "uuid": "^9.0.1"
+  }
+}
