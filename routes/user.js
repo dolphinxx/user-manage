@@ -20,7 +20,7 @@ router.get('/detail', async (req, res) => {
 })
 
 router.get('/paginate', async (req, res, next) => {
-    const params = getRequestParams(['name', 'phone', 'idCard'], req.query);
+    const params = getRequestParams(['name', 'phone', 'idCard'], req.query, true);
     const pageNo = parseInt(req.query.pageNo || '1');
     const pageSize = parseInt(req.query.pageSize || '10');
     const offset = (pageNo - 1) * pageSize;

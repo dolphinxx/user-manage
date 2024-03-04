@@ -7,13 +7,16 @@ const encodePassword = (password) => {
     return digest.toString('hex');
 }
 
-const getRequestParams = (fields, params) => {
+const getRequestParams = (fields, params, skipEmpty) => {
     const result = {};
-    if(!params) {
+    if (!params) {
         return result;
     }
     for (let field of fields) {
-        if (!!params[field]) {
+        if (params[field] !== null && params[field] !== undefined) {
+            if (skipEmpty && params[field] === '') {
+                continue;
+            }
             result[field] = params[field];
         }
     }

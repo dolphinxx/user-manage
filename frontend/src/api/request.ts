@@ -14,7 +14,7 @@ export const serializeParams = (params: Record<string, any>): string => {
     for (const o in params) {
         if (params.hasOwnProperty(o)) {
             const value = params[o];
-            if (value !== undefined && value !== null && value !== '') {
+            if (value !== undefined && value !== null) {
                 result.append(o, String(value));
             }
         }

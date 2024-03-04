@@ -7,8 +7,6 @@ import {renderDate} from "@/utils/render.ts";
 
 const formRules = reactive({
   name: [{validator: toValidator([requiredRule]), trigger: 'blur'}],
-  phone: [{validator: toValidator([requiredRule]), trigger: 'blur'}],
-  idCard: [{validator: toValidator([requiredRule]), trigger: 'blur'}],
 });
 
 const items = ref<OverdueUser[]>();
