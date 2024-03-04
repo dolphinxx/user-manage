@@ -11,6 +11,7 @@
 将以下文件和目录复制到服务器
 
 - bin/
+- download/
 - public/
 - routes/
 - setup/
