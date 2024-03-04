@@ -1,0 +1,1 @@
+import{aM as t,aO as e}from"./index-C9TutOex.js";const p=async(o,a,s)=>t("/login",{method:"POST",body:new URLSearchParams({username:o,password:a,rememberMe:s+""}).toString()}),g=async()=>t("/logout"),i=async o=>e("/change_password",o),l=async()=>t("/principal"),m=(o,a)=>{const s=o.__vccOpts||o;for(const[r,n]of a)s[r]=n;return s};export{m as _,p as a,l as g,g as l,i as u};
