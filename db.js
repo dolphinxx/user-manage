@@ -28,6 +28,9 @@ const updateAdminPassword = async (id, password) => {
 const userColumns = ['id', 'name', 'phone', 'idCard', 'status', 'remark', 'createTime', 'updateTime']
 
 const buildQueryConditions = (params, columns) => {
+    if (!params) {
+        return ['', []];
+    }
     const placeholderParams = [];
     const sql = Object.entries(params).filter(_ => columns.includes(_[0])).map(_ => {
         placeholderParams.push(_[1]);
@@ -64,7 +67,9 @@ const selectUsers = async (params, offset, limit) => {
     if (conditionParams.length > 0) {
         sql += ' WHERE ' + conditionSql;
     }
-    sql += ` LIMIT ${offset || 0}, ${limit || 10}`;
+    if (offset !== undefined && limit !== undefined) {
+        sql += ` LIMIT ${offset || 0}, ${limit || 10}`;
+    }
     return new Promise((resolve, reject) => {
         db.all(sql, conditionParams, (err, rows) => {
             if (err) {
@@ -118,6 +123,45 @@ const insertUser = async (params) => {
     });
 }
 
+const statementInsert = async (stmt, row) => new Promise((resolve, reject) => {
+    stmt.run(row, function (err) {
+        if (err) {
+            reject(err);
+            return;
+        }
+        resolve(this.lastID);
+    });
+});
+
+/**
+ * @param params Array of []name, idCard, phone]
+ * @returns {Promise<void>}
+ */
+const insertUsers = async (params) => {
+    return new Promise(async (resolve, reject) => {
+        const stmt = db.prepare('INSERT INTO user(name, idCard, phone)VALUES(?, ?, ?)', err => {
+            if (err) {
+                reject(err);
+            }
+        });
+        if (!stmt) {
+            return;
+        }
+        let count = 0;
+        for (const row of params) {
+            console.log('inserting', row);
+            try {
+                await statementInsert(stmt, row);
+                count++;
+            } catch (e) {
+                reject(`导入${count}条记录后出错，` + e);
+                return;
+            }
+        }
+        resolve(count);
+    });
+}
+
 const updateUserById = async (id, params) => {
     const [updateSql, placeholderParams] = buildUpdateParams(params, userColumns);
     placeholderParams.push(id);
@@ -158,4 +202,5 @@ module.exports = {
     insertUser,
     updateUserById,
     deleteUserById,
+    insertUsers,
 }

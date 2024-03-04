@@ -7,7 +7,7 @@ export const applyRequestHandlers = ({
     _loginHandler = loginHandler;
 };
 
-const apiPrefix = "/api";
+export const apiPrefix = "/api";
 
 export const serializeParams = (params: Record<string, any>): string => {
     const result = new URLSearchParams();

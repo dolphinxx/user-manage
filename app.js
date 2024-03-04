@@ -1,6 +1,7 @@
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
+const fileUpload = require("express-fileupload");
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 require('express-async-errors');
@@ -8,6 +9,7 @@ const {auth} = require('./auth');
 
 const userRouter = require('./routes/user');
 const authRouter = require('./routes/auth');
+const fs = require("fs");
 
 process.on('unhandledRejection', error => {
     console.error('unhandledRejection', error);
@@ -24,7 +26,27 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(
+    fileUpload({
+        limits: {fileSize: 50 * 1024 * 1024},
+    })
+);
 
+app.get('/api/download', (req, res) => {
+    const filename = req.query.file;
+    if (!filename) {
+        res.status(404);
+        res.end();
+        return;
+    }
+    const filePath = path.join(__dirname, 'download', filename.replace(/[\/\\]/g, ''));
+    if (!fs.existsSync(filePath)) {
+        res.status(404);
+        res.end();
+        return;
+    }
+    res.download(filePath);
+});
 
 app.use('/api', authRouter);
 

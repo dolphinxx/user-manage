@@ -31,3 +31,9 @@ npm run start
 ```
 
 默认侦听端口为3000，可通过`process.env.PORT`或者在`.env`文件中添加`PORT=8080`来指定其它值。
+
+nohup启动
+```
+nohup npm run start >> overdue.log 2>&1 &
+nohup yarn start >> overdue.log 2>&1 &
+```
