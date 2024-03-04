@@ -3,10 +3,15 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+require('express-async-errors');
 const {auth} = require('./auth');
 
 const userRouter = require('./routes/user');
 const authRouter = require('./routes/auth');
+
+process.on('unhandledRejection', error => {
+    console.error('unhandledRejection', error);
+});
 
 const app = express();
 
